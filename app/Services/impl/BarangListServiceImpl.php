@@ -34,7 +34,7 @@ class BarangListServiceImpl implements BarangListService
 
     public function tambahBarang($request)
     {
-        $itemId = DB::table('items')->insertGetId([
+        DB::table('items')->insert([
             'item_name' => $request->item_name,
             'item_description' => $request->item_description,
             'quantity' => $request->quantity,
@@ -44,6 +44,8 @@ class BarangListServiceImpl implements BarangListService
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        $itemId = DB::getPdo()->lastInsertId();
 
         $this->audit($itemId, $request, 'created');
     }
