@@ -71,5 +71,14 @@ class UserServiceImpl implements UserService
     {
         DB::table('users')->where('user_id', $id)->delete();
     }
+
+    public function updatePassword($request)
+    {
+        $user = Auth::user();
+
+        DB::table('users')
+            ->where('user_id', $user->user_id)
+            ->update(['password' => Hash::make($request->new_password)]);
+    }
     
 }

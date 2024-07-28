@@ -8,7 +8,14 @@
         <div class="title-container">
             <h1 class="mt-4">Stock barang</h1>
         </div>
-        <div class="container-btn" style="display: flex;width: 100%;justify-content: flex-end;padding: 10px;">
+
+        <div class="container-btn" style="display: flex;width: 100%;justify-content: flex-end;padding: 10px;gap: 20px;">
+            <form action="{{ route('barang.index') }}" method="GET" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search items..." value="{{ request()->get('search') }}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
             <a href="baranglist/create">
                 <button class="btn btn-secondary">Tambah barang</button>
             </a>

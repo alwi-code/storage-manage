@@ -19,7 +19,7 @@ class BarangController extends Controller
     {
         return response()->view('baranglist.baranglist',[
             'title' => 'Baranglist',
-            'baranglist' => $this->barangListService->getBarang()
+            'baranglist' => $this->barangListService->getBarang($request)
         ]);
     }
 

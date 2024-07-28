@@ -62,22 +62,24 @@
                     <a href="/baranglist" class="list-group-item list-group-item-action">List barang</a>
                     @if (Auth::user()->role === 'admin')
                         <a href="/users" class="list-group-item list-group-item-action">Manage users</a>
+
+                        <div class="dropdown">
+                        
+                            <a href="#" class="list-group-item list-group-item-action" role="button" data-bs-toggle="dropdown" aria-expanded="false">Log activity</a>
+                            
+                            <ul class="dropdown-menu" aria-labelledby="logMenu">
+                                <li><a class="dropdown-item" href="/logs/audit">Barang</a></li>
+                                <li><a class="dropdown-item" href="/logs/activity">Users</a></li>
+                                {{-- <li>
+                                    <hr class="dropdown-divider">
+                                </li> --}}
+                            </ul>
+                        </div>
                     @else
-                        <a href="#" class="list-group-item list-group-item-action">Ganti password</a>
+                        <a href="/change-password" class="list-group-item list-group-item-action">Ganti password</a>
                     @endif
 
-                    <div class="dropdown">
-                        
-                        <a href="#" class="list-group-item list-group-item-action" role="button" data-bs-toggle="dropdown" aria-expanded="false">Log activity</a>
-                        
-                        <ul class="dropdown-menu" aria-labelledby="logMenu">
-                            <li><a class="dropdown-item" href="#">Barang</a></li>
-                            <li><a class="dropdown-item" href="#">Users</a></li>
-                            {{-- <li>
-                                <hr class="dropdown-divider">
-                            </li> --}}
-                        </ul>
-                    </div>
+                   
 
                 </div>
             </div>
@@ -85,7 +87,7 @@
             <div class="container-logout">
                 <a class="dropdown-item px-3" href="#"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('users.logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </div>
@@ -98,7 +100,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <img src="#" alt="logo" style="height: 32px;">
+                <img src="/assets/img/logo.webp" alt="logo" style="height: 32px;">
                 <p>PT TEAM2</p>
             </div>
         </nav>

@@ -4,7 +4,7 @@ namespace App\Services;
 
 interface BarangListService
 {
-    public function getBarang();
+    public function getBarang($request);
 
     public function getBarangById($id);
 

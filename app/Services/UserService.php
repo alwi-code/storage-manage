@@ -16,4 +16,6 @@ interface UserService
 
     function deleteUser($id);
 
+    function updatePassword($request);
+
 }

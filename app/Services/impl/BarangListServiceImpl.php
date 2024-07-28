@@ -9,13 +9,23 @@ use Illuminate\Support\Facades\Session;
 
 class BarangListServiceImpl implements BarangListService
 {
-    public function getBarang()
+    public function getBarang($request)
     {
-        $items = DB::table('items')
+        $query = DB::table('items')
                     ->join('users', 'items.created_by', '=', 'users.user_id')
-                    ->select('items.*', 'users.username as created_by')
-                    ->get();
-        return $items;
+                    ->select('items.*', 'users.username as created_by');
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('items.item_name', 'like', '%' . $search . '%')
+                  ->orWhere('items.item_description', 'like', '%' . $search . '%')
+                  ->orWhere('items.category', 'like', '%' . $search . '%')
+                  ->orWhere('items.location', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $query->get();
     }
 
     public function removeBarang($id)

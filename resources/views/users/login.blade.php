@@ -40,7 +40,7 @@
 
         <div class="container-login">
             <div class="container-logo">
-                <img src="" alt="logo">
+                <img src="/assets/img/logo.webp" alt="logo">
             </div>
             <div class="container-form">
                 <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" action="/login">
