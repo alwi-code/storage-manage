@@ -62,4 +62,55 @@ class UserController extends Controller
         $request->session()->forget('user');
         return redirect('/');
     }
+
+    public function index()
+    {
+        $users = $this->userService->getUsers();
+
+        return view('users.index', compact('users'));
+    }
+
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50|unique:users',
+            'role' => 'required|string|in:admin,user',
+        ]);
+
+        $this->userService->storeUser($request);
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $user = $this->userService->getUserById($id);
+
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50|unique:users,username,' . $id . ',user_id',
+            'password' => 'nullable|string|min:6',
+            'role' => 'required|string|in:admin,user',
+        ]);
+
+        $this->userService->updateUserById($request, $id);
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $this->userService->deleteUser($id);
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    }
 }

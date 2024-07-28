@@ -25,6 +25,15 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/login', 'doLogin')->middleware(OnlyGuestMiddleware::class);
     Route::post('/logout', 'doLogout')->name('logout')->middleware(OnlyMemberMiddleware::class);
 
+    Route::middleware(OnlyMemberMiddleware::class)->group(function (){
+        Route::get('/users', 'index')->name('users.index');
+        Route::get('/users/create', 'create')->name('users.create');
+        Route::post('/users', 'store')->name('users.store');
+        Route::get('/users/{id}/edit', 'edit')->name('users.edit');
+        Route::put('/users/{id}', 'update')->name('users.update');
+        Route::delete('/users/{id}', 'destroy')->name('users.destroy');
+    });
+
 });
 
 Route::controller(BarangController::class)->middleware(OnlyMemberMiddleware::class)->group(function (){

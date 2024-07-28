@@ -17,7 +17,7 @@ class UserServiceImpl implements UserService
 
         if ($user && Hash::check($password, $user->password)) {
             Auth::loginUsingId($user->user_id);
-            
+
             return [
                 'status' => true,
                 'message' => 'Login berhasil',
@@ -29,6 +29,47 @@ class UserServiceImpl implements UserService
             'status' => false,
             'message' => 'Username atau password salah',
         ];
+    }
+
+    public function getUsers()
+    {
+        return DB::table('users')->where('role','user')->get();
+    }
+
+    public function storeUser($request)
+    {
+        DB::table('users')->insert([
+            'username' => $request->username,
+            'password' => Hash::make('ptteam2'),
+            'role' => $request->role,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    public function getUserById($id)
+    {
+        return DB::table('users')->where('user_id', $id)->first();
+    }
+
+    public function updateUserById($request, $id)
+    {
+        $data = [
+            'username' => $request->username,
+            'role' => $request->role,
+            'updated_at' => now(),
+        ];
+
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        DB::table('users')->where('user_id', $id)->update($data);
+    }
+
+    public function deleteUser($id)
+    {
+        DB::table('users')->where('user_id', $id)->delete();
     }
     
 }

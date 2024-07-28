@@ -60,7 +60,7 @@
             <div class="contianer-menu">
                 <div class="list-group list-group-flush">
                     <a href="/baranglist" class="list-group-item list-group-item-action">List barang</a>
-                    <a href="#" class="list-group-item list-group-item-action">Manage users</a>
+                    <a href="/users" class="list-group-item list-group-item-action">Manage users</a>
                     <a href="#" class="list-group-item list-group-item-action">Log activity</a>
                 </div>
             </div>
