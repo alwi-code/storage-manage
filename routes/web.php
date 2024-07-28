@@ -25,7 +25,7 @@ Route::controller(UserController::class)->group(function (){
     Route::post('/login', 'doLogin')->middleware(OnlyGuestMiddleware::class);
     Route::post('/logout', 'doLogout')->name('logout')->middleware(OnlyMemberMiddleware::class);
 
-    Route::middleware(OnlyMemberMiddleware::class)->group(function (){
+    Route::middleware([OnlyMemberMiddleware::class, 'admin'])->group(function (){
         Route::get('/users', 'index')->name('users.index');
         Route::get('/users/create', 'create')->name('users.create');
         Route::post('/users', 'store')->name('users.store');

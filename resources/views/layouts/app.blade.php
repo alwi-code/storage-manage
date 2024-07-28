@@ -60,8 +60,25 @@
             <div class="contianer-menu">
                 <div class="list-group list-group-flush">
                     <a href="/baranglist" class="list-group-item list-group-item-action">List barang</a>
-                    <a href="/users" class="list-group-item list-group-item-action">Manage users</a>
-                    <a href="#" class="list-group-item list-group-item-action">Log activity</a>
+                    @if (Auth::user()->role === 'admin')
+                        <a href="/users" class="list-group-item list-group-item-action">Manage users</a>
+                    @else
+                        <a href="#" class="list-group-item list-group-item-action">Ganti password</a>
+                    @endif
+
+                    <div class="dropdown">
+                        
+                        <a href="#" class="list-group-item list-group-item-action" role="button" data-bs-toggle="dropdown" aria-expanded="false">Log activity</a>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="logMenu">
+                            <li><a class="dropdown-item" href="#">Barang</a></li>
+                            <li><a class="dropdown-item" href="#">Users</a></li>
+                            {{-- <li>
+                                <hr class="dropdown-divider">
+                            </li> --}}
+                        </ul>
+                    </div>
+
                 </div>
             </div>
 
@@ -74,28 +91,7 @@
             </div>
         </div>
 
-        {{-- <div class="dropdown mt-auto px-3">
-
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userMenu"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                {{ Auth::user()->username }}
-            </a>
-
-            <ul class="dropdown-menu" aria-labelledby="userMenu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div> --}}
+        
 
     </div>
 
