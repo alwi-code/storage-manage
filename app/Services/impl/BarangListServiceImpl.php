@@ -4,24 +4,11 @@ namespace App\Services\Impl;
 
 use Illuminate\Support\Facades\DB;
 use App\Services\BarangListService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class BarangListServiceImpl implements BarangListService
 {
-
-    public function postBarang($id, $barang)
-    {
-        if(!Session::exists('baranglist')){
-            Session::put('baranglist', []);
-        }
-
-        Session::push('baranglist', [
-            'id' => $id,
-            'barang' => $barang
-        ]);
-
-    }
-
     public function getBarang()
     {
         $items = DB::table('items')
@@ -47,7 +34,7 @@ class BarangListServiceImpl implements BarangListService
 
     public function tambahBarang($request)
     {
-        DB::table('items')->insert([
+        $itemId = DB::table('items')->insertGetId([
             'item_name' => $request->item_name,
             'item_description' => $request->item_description,
             'quantity' => $request->quantity,
@@ -57,6 +44,8 @@ class BarangListServiceImpl implements BarangListService
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        $this->audit($itemId, $request, 'created');
     }
 
     public function getBarangById($id)
@@ -74,10 +63,31 @@ class BarangListServiceImpl implements BarangListService
             'location' => $request->location,
             'updated_at' => now(),
         ]);
+
+        $this->audit($id, $request, 'updated');
     }
 
     public function deleteBarang($id)
     {
+        $item = DB::table('items')->where('item_id', $id)->first();
         DB::table('items')->where('item_id', $id)->delete();
+
+        if ($item) {
+            $this->audit($id, $item, 'deleted');
+        }
+    }
+
+    protected function audit($itemId, $data, $event)
+    {
+        DB::table('audit_items')->insert([
+            'item_id' => $itemId,
+            'user_id' => Auth::id(),
+            'item_name' => $data->item_name ?? $data->item_name,
+            'item_description' => $data->item_description ?? $data->item_description,
+            'quantity' => $data->quantity ?? $data->quantity,
+            'category' => $data->category ?? $data->category,
+            'location' => $data->location ?? $data->location,
+            'updated_at' => now(),
+        ]);
     }
 }
