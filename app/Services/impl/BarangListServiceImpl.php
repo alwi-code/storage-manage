@@ -81,12 +81,14 @@ class BarangListServiceImpl implements BarangListService
 
     public function deleteBarang($id)
     {
-        $item = DB::table('items')->where('item_id', $id)->first();
+        // $item = DB::table('items')->where('item_id', $id)->first();
+        DB::table('audit_items')->where('item_id', $id)->delete();
+
         DB::table('items')->where('item_id', $id)->delete();
 
-        if ($item) {
-            $this->audit($id, $item, 'deleted');
-        }
+        // if ($item) {
+        //     $this->audit($id, $item, 'deleted');
+        // }
     }
 
     protected function audit($itemId, $data, $event)
