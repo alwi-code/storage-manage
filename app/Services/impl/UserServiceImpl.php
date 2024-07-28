@@ -16,6 +16,7 @@ class UserServiceImpl implements UserService
         $user = DB::table('users')->where('username', $username)->first();
 
         if ($user && Hash::check($password, $user->password)) {
+            Auth::loginUsingId($user->user_id);
             
             return [
                 'status' => true,
